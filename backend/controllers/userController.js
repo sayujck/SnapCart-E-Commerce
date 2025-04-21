@@ -7,14 +7,14 @@ export const register = async (req, res) => {
     try {
         const { name, email, password } = req.body
         if (!name || !email || !password) {
-            res.status(400).json({
+            res.json({
                 success: false,
                 message: 'Missing Details'
             })
         }
         const existingUser = await User.findOne({ email })
         if (existingUser)
-            return res.status(401).json({ success: false, message: 'user already existing' })
+            return res.json({ success: false, message: 'user already exists' })
         else {
             const hashedPassword = await bcrypt.hash(password, 10)
             const newUser = new User({ name, email, password: hashedPassword })
@@ -34,7 +34,7 @@ export const login = async (req, res) => {
     try {
         const { email, password } = req.body
         if (!email || !password) {
-            res.status(400).json({
+            res.json({
                 success: false,
                 message: 'Missing Details'
             })
@@ -43,7 +43,7 @@ export const login = async (req, res) => {
         if (existingUser) {
             const isPasswordValid = await bcrypt.compare(password, existingUser.password)
             if (!isPasswordValid) {
-                res.status(401).json({
+                res.json({
                     success: false,
                     message: 'Invalid Password'
                 })
@@ -62,6 +62,12 @@ export const login = async (req, res) => {
                 success: true
             })
         }
+        else {
+            return res.json({
+                success: false,
+                message: 'User not found'
+            })
+        }
 
     } catch (error) {
         console.log(error.message);
@@ -72,7 +78,7 @@ export const login = async (req, res) => {
 // check auth
 export const isAuth = async (req, res) => {
     try {
-        const { userId } = req.body
+        const  userId  = req.userId
         const user = await User.findById(userId).select("-password")
         return res.status(200).json({ success: true, user })
     } catch (error) {

@@ -22,7 +22,7 @@ const ProductDetails = () => {
     }, [products])
 
     useEffect(() => {
-        setThumbnail(product?.image[0] ? product.image[0] : null)
+        setThumbnail(product?.images[0] ? product.images[0] : null)
     }, [])
 
 
@@ -38,7 +38,7 @@ const ProductDetails = () => {
             <div className="flex flex-col md:flex-row gap-16 mt-4">
                 <div className="flex gap-3">
                     <div className="flex flex-col gap-3">
-                        {product.image.map((image, index) => (
+                        {product.images.map((image, index) => (
                             <div key={index} onClick={() => setThumbnail(image)} className="border max-w-24 border-gray-500/30 rounded overflow-hidden cursor-pointer" >
                                 <img src={image} alt={`Thumbnail ${index + 1}`} />
                             </div>
@@ -46,7 +46,7 @@ const ProductDetails = () => {
                     </div>
 
                     <div className="border border-gray-500/30 max-w-100 rounded overflow-hidden">
-                        <img src={thumbnail} alt="Selected product" />
+                        <img src={ thumbnail || product.images[0]} alt="Selected product" />
                     </div>
                 </div>
 
@@ -63,7 +63,7 @@ const ProductDetails = () => {
 
                     <div className="mt-6">
                         <p className="text-gray-500/70 line-through">MRP: {currency}{product.price}</p>
-                        <p className="text-2xl font-medium">MRP: {currency}{product.offerPrice}</p>
+                        <p className="text-2xl font-medium">MRP: {currency}{product.offerprice}</p>
                         <span className="text-gray-500/70">(inclusive of all taxes)</span>
                     </div>
 

@@ -22,16 +22,21 @@ const AddProduct = () => {
       description: description.split('\n'),
       category,
       price,
-      offerPrice
+      offerprice: offerPrice,
     };
-    console.log(productData);
-    
 
     const formData = new FormData();
-    formData.append('productData', JSON.stringify(productData));
-    for (let i = 0; i < files.length; i++) {
-      formData.append('images', files[i])
-    } 
+    formData.append('name', productData.name);
+    formData.append('description', JSON.stringify(productData.description));
+    formData.append('category', productData.category);
+    formData.append('price', productData.price);
+    formData.append('offerprice', productData.offerprice);
+    files.forEach((file) => {
+      if (file) {
+        formData.append('images', file);
+      }
+    });
+    
 
     try {
       const { data } = await axios.post('/api/product/add', formData);

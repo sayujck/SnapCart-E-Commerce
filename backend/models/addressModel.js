@@ -7,7 +7,8 @@ const addressSchema = mongoose.Schema({
     email: {type: String, required: true},
     street: {type: String, required: true},
     city: {type: String, required: true},
-    zipcode: {type: Number, required: true},
+    state: {type: String, required: true},
+    pincode: {type: Number, required: true},
     country: {type: String, required: true},
     phone: {type: String, required: true}
 })
